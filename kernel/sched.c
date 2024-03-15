@@ -900,16 +900,15 @@ pick_next_task:
 	if(current->character.party.prev != NULL){
 		task_t* tmp = next_running_party_member(prev);
 		if(tmp != NULL){ 
-			// linus would kill me for this many indentations
 			// make sure not in expired queue
 			if(tmp->array != current->array){
 				dequeue_task(tmp, tmp->array);
 				enqueue_task(tmp, rq->active);
 			}
 			next = tmp;
-			printk("tmp process pid: %d\n", next->pid);
+			//printk("tmp process pid: %d\n", next->pid);
 		}
-		printk("next process pid: %d\n", next->pid);
+		//printk("next process pid: %d\n", next->pid);
 	}
 	// LAB 2 Code
 	
