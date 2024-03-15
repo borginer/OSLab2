@@ -907,8 +907,9 @@ pick_next_task:
 				enqueue_task(tmp, rq->active);
 			}
 			next = tmp;
+			printk("tmp process pid: %d\n", next->pid);
 		}
-		printk("next process pid: %d", next->pid);
+		printk("next process pid: %d\n", next->pid);
 	}
 	// LAB 2 Code
 	
