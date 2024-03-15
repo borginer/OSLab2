@@ -815,7 +815,7 @@ task_t* next_running_party_member(){
 	pos = pos->next;
 	while (pos != &current->character.party){
         entry = list_entry(pos, struct rpg_character, party);
-		task = get_task(entry, task_t, character)
+		task = get_task(entry, task_t, character);
 		if(task->state == TASK_RUNNING){
 			return task;
 		}
