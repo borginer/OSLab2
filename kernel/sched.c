@@ -906,7 +906,7 @@ pick_next_task:
 			}
 			next = tmp;
 		}
-		//printk("next process pid: %d", find_task_by_pid(next->pid));
+		printk("next process pid: %d", next->pid);
 	}
 	// LAB 2 Code
 	
