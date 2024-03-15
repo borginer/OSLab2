@@ -793,22 +793,38 @@ out:
 }
 
 // LAB 2 MY CODE 
+
+//reusing this bad boy from list.h
+/**
+ * list_entry - get the struct for this entry
+ * @ptr:	the &struct list_head pointer.
+ * @type:	the type of the struct this is embedded in.
+ * @member:	the name of the list_struct within the struct.
+ */
+#define get_task(ptr, type, member) \
+	((type *)((char *)(ptr)-(unsigned long)(&((type *)0)->member)))
+
+
 // returns task of next running party member, NULL otherwise
 // only called if process is playing.
 task_t* next_running_party_member(){
+
     struct rpg_character *entry;
 	struct list_head *pos = &current->character.party;
 	pos = pos->next;
 	while (pos != &current->character.party){
         entry = list_entry(pos, struct rpg_character, party);
-		if(entry->state == TASK_RUNNING){
+		if(get_task(entry, task_t, character)->state == TASK_RUNNING){
 			return &entry;
 		}
         pos = pos->next;
     } 
 	// current process
 	entry = list_entry(pos, struct rpg_character, party);
-
+	if(current->state == TASK_RUNNING){
+		return &entry;
+	}
+	return NULL;
 }
 // LAB 2 MY CODE
 
@@ -881,10 +897,17 @@ pick_next_task:
 	//if playing then next process should be next party member
 	if(current->character.party.prev != NULL){
 		task_t* tmp = next_running_party_member(prev);
-		if(tmp != NULL){
+		if(tmp != NULL){ 
+			// linus would kill me for this many indentations
+			// make sure not in expired queue
+			if(tmp->array != current->array){
+				dequeue(tmp, tmp->array);
+				enqueue(tmp, rq->active);
+			}
 			next = tmp;
 		}
 	}
+	printk("next process pid: %d", find_task_by_pid(next->pid));
 	// LAB 2 Code
 	
 
