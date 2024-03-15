@@ -811,18 +811,20 @@ task_t* next_running_party_member(){
 
     struct rpg_character *entry;
 	struct list_head *pos = &current->character.party;
+	task_t* task;
 	pos = pos->next;
 	while (pos != &current->character.party){
         entry = list_entry(pos, struct rpg_character, party);
-		if(get_task(entry, task_t, character)->state == TASK_RUNNING){
-			return &entry;
+		task = get_task(entry, task_t, character)
+		if(task->state == TASK_RUNNING){
+			return task;
 		}
         pos = pos->next;
     } 
 	// current process
 	entry = list_entry(pos, struct rpg_character, party);
 	if(current->state == TASK_RUNNING){
-		return &entry;
+		return current;
 	}
 	return NULL;
 }
