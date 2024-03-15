@@ -901,8 +901,8 @@ pick_next_task:
 			// linus would kill me for this many indentations
 			// make sure not in expired queue
 			if(tmp->array != current->array){
-				dequeue(tmp, tmp->array);
-				enqueue(tmp, rq->active);
+				dequeue_task(tmp, tmp->array);
+				enqueue_task(tmp, rq->active);
 			}
 			next = tmp;
 		}
